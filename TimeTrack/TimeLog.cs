@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TimeTrack
+{
+    public class TimeLog
+    {
+        long _id = -1;
+        string _timeCode;
+        DateTime _starttime;
+        DateTime? _endtime = null;
+
+        public TimeLog(string timeCode,DateTime startTime,DateTime? endTime)
+        {
+            _id = -1;
+            _timeCode = timeCode;
+            _starttime = startTime;
+            _endtime = endTime;
+        }
+
+        public TimeLog(string timeCode, DateTime startTime)
+        {
+            _id = -1;
+            _timeCode = timeCode;
+            _starttime = startTime;
+        }
+
+        public long Id
+        {
+            get { return _id; }
+        }
+
+        public string TimeCode
+        {
+            get { return _timeCode; }
+        }
+
+        public DateTime StartTime
+        {
+            get { return _starttime; }
+        }
+
+        public DateTime? EndTime
+        {
+            get { return _endtime; }
+            set { _endtime = value; }
+        }
+
+        public void UpdateId(long id)
+        {
+            _id = id;
+        }
+    }
+}
