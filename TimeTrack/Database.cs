@@ -58,11 +58,6 @@ namespace TimeTrack
                 sql = "create table if not exists time_code_alias(time_code NVARCHAR(25),alias NVARCHAR(25))";
                 command = new SQLiteCommand(sql, con);
                 command.ExecuteNonQuery();
-
-                //command.Dispose();
-                //con.Close();
-                //con.Dispose();
-                //SQLiteConnection.ClearAllPools();
             }
         }
 
@@ -72,7 +67,6 @@ namespace TimeTrack
                 return "null";
             else
                 return ((DateTime)datetime).ToString(_sqLiteDateTimeFormatString, System.Globalization.CultureInfo.InvariantCulture);
-            //return string.Format(dateTimeFormat, datetime.Year, datetime.Month, datetime.Day, datetime.Hour, datetime.Minute, datetime.Second, datetime.Millisecond);
         }
 
         private DateTime GetDateTimeFromSQLiteDateString(string datestring)
