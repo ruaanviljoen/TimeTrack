@@ -53,5 +53,15 @@ namespace TimeTrack
         {
             _id = id;
         }
+
+        public override bool Equals(object obj)
+        {
+            TimeLog other = obj as TimeLog;
+            return this.Id == other.Id
+                && this.TimeCode == other.TimeCode
+                //TODO this is bad, instead fix the database handling of the datetime so it actually returns the same datetime
+                && this.StartTime.ToString(Database._sqLiteDateTimeFormatString) == other.StartTime.ToString(Database._sqLiteDateTimeFormatString)
+                && this.EndTime == other.EndTime;
+        }
     }
 }
