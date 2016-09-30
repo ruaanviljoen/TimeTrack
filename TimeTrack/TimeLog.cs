@@ -54,6 +54,14 @@ namespace TimeTrack
             _id = id;
         }
 
+        public TimeSpan GetTotal()
+        {
+            if (EndTime == null)
+                return DateTime.Now - StartTime;
+            else
+                return EndTime.Value - StartTime;
+        }
+
         public override bool Equals(object obj)
         {
             TimeLog other = obj as TimeLog;

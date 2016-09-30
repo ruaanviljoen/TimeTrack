@@ -11,12 +11,16 @@ namespace TimeTrack
     public class TimeTracker
     {
         Database db;
+        Dictionary<string, TimeLog> logs;
 
+        public Dictionary<string,TimeLog> Logs
+        {
+            get { return logs; }
+        }
         public TimeTracker()
         {
+            logs = new Dictionary<string, TimeLog>();
             db = new Database();
         }
-
-
     }
 }
