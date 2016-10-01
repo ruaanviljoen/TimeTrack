@@ -59,7 +59,7 @@ namespace TimeTrack
             if (logs.ContainsKey(stopSubOptions.Code))
             {
                 log = logs[stopSubOptions.Code];
-                log.EndTime = DateTime.Now;
+                log.Stop();
                 Console.WriteLine("Stopping time tracking for " + log.TimeCode + ". Time so far: " + log.GetTotal());
             }
             else

@@ -62,7 +62,7 @@ namespace TimeTrack
                 return EndTime.Value - StartTime;
         }
 
-        public void Close()
+        public void Stop()
         {
             //TODO don't allow closing if already closed
             EndTime = DateTime.Now;
