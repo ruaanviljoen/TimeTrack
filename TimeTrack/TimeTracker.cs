@@ -10,9 +10,9 @@ namespace TimeTrack
 {
     public class TimeTracker
     {
-        Database db;
-        Dictionary<string, TimeLog> logs;
-
+        protected Database db;
+        protected Dictionary<string, TimeLog> logs;
+        protected TimeLog lastLog;
         public Dictionary<string,TimeLog> Logs
         {
             get { return logs; }
@@ -21,6 +21,6 @@ namespace TimeTrack
         {
             logs = new Dictionary<string, TimeLog>();
             db = new Database();
-        }
+        }       
     }
 }

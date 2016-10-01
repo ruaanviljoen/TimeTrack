@@ -62,6 +62,12 @@ namespace TimeTrack
                 return EndTime.Value - StartTime;
         }
 
+        public void Close()
+        {
+            //TODO don't allow closing if already closed
+            EndTime = DateTime.Now;
+        }
+
         public override bool Equals(object obj)
         {
             TimeLog other = obj as TimeLog;
