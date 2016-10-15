@@ -32,8 +32,9 @@ namespace TestTimeTrack
         [TestMethod]
         public void TestCreateDatabaseFileOnFirstUse()
         {
+            TimeTracker tracker = new TimeTracker();
             Assert.IsFalse(File.Exists(Database.DefaultDatabaseFileName));
-            Database db = new Database();
+            Database db = new Database(tracker);
 
             Assert.IsTrue(File.Exists(Database.DefaultDatabaseFileName));
         }
@@ -41,8 +42,9 @@ namespace TestTimeTrack
         [TestMethod]
         public void TestInsert()
         {
-            Database db = new Database();
-            TimeLog t = new TimeLog("abc", DateTime.Now);
+            TimeTracker tracker = new TimeTracker();
+            Database db = new Database(tracker);
+            TimeLog t = new TimeLog(tracker,"abc", DateTime.Now);
             db.InsertTimeLog(t);
 
             Assert.AreEqual(t.Id, 1);
@@ -53,16 +55,17 @@ namespace TestTimeTrack
         [TestMethod]
         public void TestUpdate()
         {
-            Database db = new Database();
+            TimeTracker tracker = new TimeTracker();
+            Database db = new Database(tracker);
             DateTime now = DateTime.Now;
-            TimeLog t = new TimeLog("abc", now);
+            TimeLog t = new TimeLog(tracker,"abc", now);
 
             //insert, update, retrieve, check the updated value
             db.InsertTimeLog(t);          
 
             //update the endtime (close the timelog entry)
             DateTime endtime = now.AddHours(1);
-            t.EndTime = endtime;
+            t.Stop();
             db.UpdateTimeLog(t);
 
             List<TimeLog> logs = db.ReadTimeLogs(new List<long> { t.Id });
@@ -70,15 +73,17 @@ namespace TestTimeTrack
 
             Assert.AreEqual(t_retrieved.Id, t.Id);
             //TODO use better way of comparing datetime values, Ticks actually differ even though formatted datetime is the same
-            Assert.AreEqual(endtime.ToString(Database._sqLiteDateTimeFormatString), t_retrieved.EndTime?.ToString(Database._sqLiteDateTimeFormatString));
+            Assert.AreEqual(endtime.ToString(Database._sqLiteDateTimeFormatString), t_retrieved.EndTime.ToString(Database._sqLiteDateTimeFormatString));
+            
         }
 
         [TestMethod]
         public void TestRead_ByDate()
         {
-            Database db = new Database();
+            TimeTracker tracker = new TimeTracker();
+            Database db = new Database(tracker);
             DateTime now = DateTime.Now;
-            TimeLog t = new TimeLog("abc", now);
+            TimeLog t = new TimeLog(tracker,"abc", now);
             db.InsertTimeLog(t);
             List<TimeLog> logs = db.ReadTimeLogs(DateTime.Today);
             TimeLog t_retrieved = logs[0];
@@ -94,9 +99,10 @@ namespace TestTimeTrack
         [TestMethod]
         public void TestRead_ById()
         {
-            Database db = new Database();
+            TimeTracker tracker = new TimeTracker();
+            Database db = new Database(tracker);
             DateTime now = DateTime.Now;
-            TimeLog t = new TimeLog("abc", now);
+            TimeLog t = new TimeLog(tracker,"abc", now);
             db.InsertTimeLog(t);
 
             List<TimeLog> logs = db.ReadTimeLogs(DateTime.Today);

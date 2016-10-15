@@ -60,7 +60,7 @@ namespace TimeTrack
             {
                 log = logs[stopSubOptions.Code];
                 log.Stop();
-                Console.WriteLine("Stopping time tracking for " + log.TimeCode + ". Time so far: " + log.GetTotal());
+                Console.WriteLine("Stopping time tracking for " + log.TimeCode + ". Time so far: " + log.TotalDuration());
             }
             else
             {
@@ -73,7 +73,7 @@ namespace TimeTrack
             if (!reportSubOptions.ShowFullReport)
             {
                 if (lastLog != null)
-                    Console.WriteLine("Currently tracking " + lastLog.TimeCode + ". Total time tracked " + lastLog.GetTotal());
+                    Console.WriteLine("Currently tracking " + lastLog.TimeCode + ". Total time tracked " + lastLog.TotalDuration());
                 else
                     Console.WriteLine("Currently not tracking anything");
             }
@@ -83,8 +83,8 @@ namespace TimeTrack
                 TimeSpan totalTime = new TimeSpan();
                 foreach (var log in logs)
                 {
-                    Console.WriteLine(String.Format("{0,-10} : {1} - {2} : {3}", log.Value.TimeCode, log.Value.StartTime, log.Value.EndTime, log.Value.GetTotal()));
-                    totalTime += log.Value.GetTotal();
+                    Console.WriteLine(String.Format("{0,-10} : {1} - {2} : {3}", log.Value.TimeCode, log.Value.StartTime, log.Value.EndTime, log.Value.TotalDuration()));
+                    totalTime += log.Value.TotalDuration();
                 }
                 Console.WriteLine("Total time tracked : " + totalTime);
             }
@@ -100,7 +100,7 @@ namespace TimeTrack
             }
             else
             {
-                log = new TimeLog(startSubOptions.Code, DateTime.Now);
+                log =this.CreateLog(startSubOptions.Code);
                 logs[log.TimeCode] = log;
             }
             lastLog = log;

@@ -6,26 +6,29 @@ using System.Threading.Tasks;
 
 namespace TimeTrack
 {
-    public class TimeLog
+    public class TimeLog : SimpleTimedTask
     {
         long _id = -1;
         string _timeCode;
         DateTime _starttime;
         DateTime? _endtime = null;
+        TimeTracker _timeTrackerInstance;
 
-        public TimeLog(string timeCode,DateTime startTime,DateTime? endTime)
+        public TimeLog(TimeTracker t,string timeCode,DateTime startTime,DateTime? endTime)
         {
             _id = -1;
             _timeCode = timeCode;
             _starttime = startTime;
             _endtime = endTime;
+            _timeTrackerInstance = t;
         }
 
-        public TimeLog(string timeCode, DateTime startTime)
+        public TimeLog(TimeTracker t,string timeCode, DateTime startTime)
         {
             _id = -1;
             _timeCode = timeCode;
             _starttime = startTime;
+            _timeTrackerInstance = t;
         }
 
         public long Id
@@ -36,37 +39,17 @@ namespace TimeTrack
         public string TimeCode
         {
             get { return _timeCode; }
-        }
-
-        public DateTime StartTime
-        {
-            get { return _starttime; }
-        }
-
-        public DateTime? EndTime
-        {
-            get { return _endtime; }
-            set { _endtime = value; }
-        }
+        }        
 
         public void UpdateId(long id)
         {
             _id = id;
         }
 
-        public TimeSpan GetTotal()
+        public void Save()
         {
-            if (EndTime == null)
-                return DateTime.Now - StartTime;
-            else
-                return EndTime.Value - StartTime;
-        }
-
-        public void Stop()
-        {
-            //TODO don't allow closing if already closed
-            EndTime = DateTime.Now;
-        }
+            _timeTrackerInstance.Save(this);
+        }        
 
         public override bool Equals(object obj)
         {

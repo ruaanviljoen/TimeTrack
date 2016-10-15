@@ -13,6 +13,7 @@ namespace TimeTrack
         static readonly string _defaultDatabaseFileName = "timetrack.sqlite";
         public const string _sqLiteDateTimeFormatString = _sqLiteDateFormatString + " hh:mm:ss.fff";
         const string _sqLiteDateFormatString = "yyyy-MM-dd";
+        TimeTracker _timeTrackerInstance;
 
         public static string DefaultDatabaseFileName
         {
@@ -22,8 +23,9 @@ namespace TimeTrack
             }
         }
 
-        public Database()
+        public Database(TimeTracker t)
         {
+            _timeTrackerInstance = t;
             ConfigureDatabase();
         }
 
@@ -124,7 +126,7 @@ namespace TimeTrack
                     DateTime starttime = reader.GetDateTime(2);
                     string endtimeString = reader.GetString(3);
                     DateTime? endtime = endtimeString == "null" ? null : (DateTime?)GetDateTimeFromSQLiteDateString(endtimeString);
-                    TimeLog log = new TimeLog(reader["time_code"].ToString(), starttime, endtime);
+                    TimeLog log = new TimeLog(_timeTrackerInstance, reader["time_code"].ToString(), starttime, endtime);
                     log.UpdateId(reader.GetInt32(0));
                     logs.Add(log);
                 }
@@ -147,7 +149,7 @@ namespace TimeTrack
                     DateTime starttime = reader.GetDateTime(2);
                     string endtimeString = reader.GetString(3);
                     DateTime? endtime = endtimeString == "null" ? null : (DateTime?)GetDateTimeFromSQLiteDateString(endtimeString);
-                    TimeLog log = new TimeLog(reader["time_code"].ToString(), starttime, endtime);
+                    TimeLog log = new TimeLog(_timeTrackerInstance,reader["time_code"].ToString(), starttime, endtime);
                     log.UpdateId(reader.GetInt32(0));
                     logs.Add(log);
                 }
